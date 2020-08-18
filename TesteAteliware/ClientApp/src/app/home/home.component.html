@@ -1,0 +1,39 @@
+<h3>Select up to 5 topics:</h3>
+<form #f="ngForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-lg-6 col-sm-12" #containerCheckbox>
+      <div class="form-group">
+        <div class="form-check">
+          <div *ngFor="let topic of keys(); let $index=index; let i=index">
+            <input type="checkbox" name="i" id="checkbox_{{i}}" ngModel class="form-check-input" (change)="checkboxChange($event, topic, i)" [disabled]="checkboxDisabled($index)" #$index />
+            <label class="form-check-label" for="$index">{{topic}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-12" id="checklist">
+      <div *ngIf="enableSearchButton()">
+        <h5>When you're done, press this button to search on GitHub:</h5>
+        <button type="submit" class="btn btn-primary" [disabled]="disableSearchButon" id="btnSearch">Search</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<p *ngIf="!searchResults && disableSearchButon"><em>Loading...</em></p>
+
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+  <ngb-panel *ngFor="let searchResult of searchResults; let $index=index; let i=index" id="panel_link_{{i}}" title="Repo: {{ searchResult.name }} - {{ searchResult.watchersCount }} watchers">
+    <ng-template ngbPanelContent>
+      GitHub link: <a href="{{ searchResult.svnUrl }}" target="_blank">{{ searchResult.svnUrl }}" </a><br />
+      Clone URL: <a href="{{ searchResult.cloneUrl }}" target="_blank">{{ searchResult.cloneUrl }}</a><br />
+      Homepage: <a href="{{ searchResult.homepage }}" target="_blank">{{ searchResult.homepage }}</a><br />
+      <br />
+      Description: {{  searchResult.description }} <br />
+      <br />
+      <br />
+      <button id="btn_favorite_{{i}}" type="button" class="btn btn-primary" (click)="updateFavorite( searchResult.id )" id="btnFavorite">Favorite</button><br />
+      Repo ID: {{ searchResult.id }}
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>

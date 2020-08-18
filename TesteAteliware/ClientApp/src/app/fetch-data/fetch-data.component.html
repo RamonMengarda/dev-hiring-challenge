@@ -1,0 +1,20 @@
+<h1 id="tableLabel">Favorites</h1>
+
+
+<p *ngIf="!savedResults"><em>Loading...</em></p>
+
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+  <ngb-panel *ngFor="let savedResult of savedResults; let $index=index; let i=index" title="Repo: {{ savedResult.name }} - {{ savedResult.watchersCount }} watchers">
+    <ng-template ngbPanelContent>
+      GitHub link: <a href="{{ savedResult.svnUrl }}" target="_blank">{{ savedResult.svnUrl }}" </a><br />
+      Clone URL: <a href="{{ savedResult.cloneUrl }}" target="_blank">{{ savedResult.cloneUrl }}</a><br />
+      Homepage: <a href="{{ savedResult.homepage }}" target="_blank">{{ savedResult.homepage }}</a><br />
+      <br />
+      Description: {{  savedResult.description }} <br />
+      <br />
+      <br />
+      <img src="../../assets/img/star-fill.svg" />
+      Repo ID: {{ savedResult.id }}
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
